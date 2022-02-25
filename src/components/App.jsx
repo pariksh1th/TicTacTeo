@@ -3,6 +3,7 @@ import Board from './Board';
 import '../styles/root.scss';
 import calculateWinner from '../winner';
 import History from './History';
+import StatusMassage from './StatusMassage';
 
 const NEW_GAME = [{ board: Array(9).fill(null), isNext: true }];
 
@@ -11,10 +12,6 @@ function App() {
   const [currentMove, setCurrentMove] = useState(0);
   const current = history[currentMove];
   const { winner, winnerSquares } = calculateWinner(current.board);
-
-  const massage = winner
-    ? `Winner is ${winner} `
-    : `Next palyer is ${current.isNext ? 'X' : 'O'}`;
 
   const handleClick = position => {
     if (current.board[position] || winner) return;
@@ -43,19 +40,28 @@ function App() {
 
   return (
     <div className="app">
-      <h1>TIC TAC TOE</h1>
-      <h2>{massage}</h2>
+      <h1>
+        TIC <span className="text-green">TAC</span> TOE
+      </h1>
+      <StatusMassage winner={winner} current={current} />
       <Board
         board={current.board}
         winnerSquares={winnerSquares}
         handleClick={handleClick}
       />
-      <button onClick={startNewGame}> Start New Game</button>
+      <button
+        className={`btn-reset ${winner && 'active'}`}
+        onClick={startNewGame}
+      >
+        Start New Game
+      </button>
+      <h2 style={{ fontWieght: 'normal' }}>Current game history</h2>
       <History
         history={history}
         moveClick={moveClick}
         currentMove={currentMove}
       />
+      <div className="bg-balls" />
     </div>
   );
 }

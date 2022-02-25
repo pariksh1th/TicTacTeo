@@ -5,11 +5,12 @@ function Square({ onClick, value, winnerSquares }) {
     <button
       onClick={onClick}
       style={{ fontWeight: winnerSquares ? 'bold' : 'normal' }}
-      className="square"
+      className={`square ${winnerSquares && 'winning'} ${
+        value == 'X' ? 'text-green' : 'text-orange'
+      }`}
     >
       {value}
     </button>
   );
 }
-
 export default Square;
