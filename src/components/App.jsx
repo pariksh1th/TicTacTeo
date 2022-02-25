@@ -4,13 +4,13 @@ import '../styles/root.scss';
 import calculateWinner from '../winner';
 import History from './History';
 
+const NEW_GAME = [{ board: Array(9).fill(null), isNext: true }];
+
 function App() {
-  const [history, setHistory] = useState([
-    { board: Array(9).fill(null), isNext: true },
-  ]);
+  const [history, setHistory] = useState(NEW_GAME);
   const [currentMove, setCurrentMove] = useState(0);
   const current = history[currentMove];
-  const winner = calculateWinner(current.board);
+  const { winner, winnerSquares } = calculateWinner(current.board);
 
   const massage = winner
     ? `Winner is ${winner} `
@@ -36,11 +36,21 @@ function App() {
     setCurrentMove(move);
   };
 
+  const startNewGame = () => {
+    setHistory(NEW_GAME);
+    setCurrentMove(0);
+  };
+
   return (
     <div className="app">
       <h1>TIC TAC TOE</h1>
       <h2>{massage}</h2>
-      <Board board={current.board} handleClick={handleClick} />
+      <Board
+        board={current.board}
+        winnerSquares={winnerSquares}
+        handleClick={handleClick}
+      />
+      <button onClick={startNewGame}> Start New Game</button>
       <History
         history={history}
         moveClick={moveClick}
