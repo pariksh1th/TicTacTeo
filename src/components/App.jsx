@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import '../styles/root.scss';
 import Board from './Board';
-import calculateWinner from './winner';
+import '../styles/root.scss';
+import calculateWinner from '../winner';
+import History from './History';
 
 function App() {
   const [history, setHistory] = useState([
@@ -10,8 +11,6 @@ function App() {
   const [currentMove, setCurrentMove] = useState(0);
   const current = history[currentMove];
   const winner = calculateWinner(current.board);
-  console.log(winner);
-  console.log(current);
 
   const massage = winner
     ? `Winner is ${winner} `
@@ -33,11 +32,20 @@ function App() {
     setCurrentMove(perv => perv + 1);
   };
 
+  const moveClick = move => {
+    setCurrentMove(move);
+  };
+
   return (
     <div className="app">
       <h1>TIC TAC TOE</h1>
       <h2>{massage}</h2>
       <Board board={current.board} handleClick={handleClick} />
+      <History
+        history={history}
+        moveClick={moveClick}
+        currentMove={currentMove}
+      />
     </div>
   );
 }
