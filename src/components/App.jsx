@@ -12,6 +12,7 @@ function App() {
   const [currentMove, setCurrentMove] = useState(0);
   const current = history[currentMove];
   const { winner, winnerSquares } = calculateWinner(current.board);
+  const noMovesLeft = current.board.every(ele => ele !== null);
 
   const handleClick = position => {
     if (current.board[position] || winner) return;
@@ -50,7 +51,7 @@ function App() {
         handleClick={handleClick}
       />
       <button
-        className={`btn-reset ${winner && 'active'}`}
+        className={`btn-reset ${winner && 'active'} ${noMovesLeft && 'active'}`}
         onClick={startNewGame}
       >
         Start New Game
